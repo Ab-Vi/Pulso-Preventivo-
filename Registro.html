@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Mantenimiento</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+ 
+  <nav class="navbar navbar-expand-lg bg-body-tertiary px-4">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-danger" href="Menu.html">Coca-Cola FEMSA - Electronicos</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="Menu.html">Menú Principal</a></li>
+          <li class="nav-item"><a class="nav-link" href="AgendaPrev.html">Agenda de Mantenimiento</a></li>
+          <li class="nav-item"><a class="nav-link active" href="Registro.html">Registro de Ejecución</a></li>
+          <li class="nav-item"><a class="nav-link" href="Historial.html">Historial Técnico</a></li>
+        </ul>
+        <button id="cerrarSesion" class="btn btn-outline-danger ms-auto">Cerrar sesión</button>
+      </div>
+    </div>
+  </nav>
+
+  
+  <section>
+    <div class="container mt-5">
+      <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+          <h4 class="mb-0">Registrar Mantenimiento</h4>
+        </div>
+        <div class="card-body">
+          <form id="registroForm" class="row g-3">
+
+            <div class="col-md-6">
+              <label for="tipoEquipo" class="form-label">Línea Producción</label>
+              <input type="text" class="form-control" id="tipoEquipo" placeholder="Ej: Generador">
+            </div>
+
+            <div class="col-md-6">
+              <label for="numeroEquipo" class="form-label">Equipo</label>
+              <input type="text" class="form-control" id="numeroEquipo" placeholder="Ej: EMB-001">
+            </div>
+
+            <div class="col-12">
+              <label for="tipoMantenimiento" class="form-label">Tipo de Mantenimiento</label>
+              <input type="text" class="form-control" id="tipoMantenimiento" placeholder="Ej: Preventivo">
+            </div>
+
+            <div class="col-12">
+              <label for="descripcionTarea" class="form-label">Descripción Tarea Realizada</label>
+              <input type="text" class="form-control" id="descripcionTarea" placeholder="Describe las actividades...">
+            </div>
+
+            <div class="col-md-6">
+              <label for="tiempoEstimado" class="form-label">Tiempo Utilizado</label>
+              <input type="text" class="form-control" id="tiempoEstimado" placeholder="Ej: 2.5 horas">
+            </div>
+
+            <div class="col-md-6">
+              <label for="Estatus" class="form-label">Estatus</label>
+              <input type="text" class="form-control" id="Estatus" placeholder="Ejecutada / En Proceso / Pendiente">
+            </div>
+
+            <div class="col-12">
+              <label for="tecnico" class="form-label">Técnico Responsable</label>
+              <input type="text" class="form-control" id="tecnico" placeholder="Nombre del técnico">
+            </div>
+
+            <div class="col-md-4">
+              <label for="fecha" class="form-label">Fecha Realización</label>
+              <input type="date" class="form-control" id="fecha" value="2025-09-13">
+            </div>
+
+            <div class="col-12">
+              <label for="Observaciones" class="form-label">Observaciones</label>
+              <input type="text" class="form-control" id="Observaciones" placeholder="Describe las observaciones...">
+            </div>
+
+            <div class="col-12 mt-4">
+              <button type="submit" class="btn btn-danger w-100">Registrar Ejecución de Mantenimiento</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+  <script>
+    const cerrarSesion = document.getElementById("cerrarSesion");
+    if (cerrarSesion) {
+      cerrarSesion.addEventListener("click", () => {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "index.html";
+      });
+    }
+
+    const registroForm = document.getElementById("registroForm");
+
+    registroForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const datos = {
+        lineaProduccion: document.getElementById("tipoEquipo").value.trim(),
+        equipo: document.getElementById("numeroEquipo").value.trim(),
+        tipoMantenimiento: document.getElementById("tipoMantenimiento").value.trim(),
+        descripcionTarea: document.getElementById("descripcionTarea").value.trim(),
+        tiempoUtilizado: document.getElementById("tiempoEstimado").value.trim(),
+        estatus: document.getElementById("Estatus").value.trim(),
+        tecnico: document.getElementById("tecnico").value.trim(),
+        fecha: document.getElementById("fecha").value,
+        observaciones: document.getElementById("Observaciones").value.trim()
+      };
+
+      try {
+        const res = await fetch("http://localhost:3000/api/Registro", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(datos)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.mensaje || "Error al guardar");
+        }
+
+        const data = await res.json();
+        alert(data.mensaje || "Registro guardado correctamente ");
+        registroForm.reset();
+      } catch (error) {
+        alert("No se pudo guardar el registro. " + error.message);
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

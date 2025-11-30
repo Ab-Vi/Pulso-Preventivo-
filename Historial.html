@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Historial Técnico</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+
+  <nav class="navbar navbar-expand-lg bg-body-tertiary px-4">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text-danger" href="Menu.html">Coca-Cola FEMSA - Electrónicos</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="Menu.html">Menú Principal</a></li>
+          <li class="nav-item"><a class="nav-link" href="AgendaPrev.html">Agenda de Mantenimiento</a></li>
+          <li class="nav-item"><a class="nav-link" href="Registro.html">Registro de Ejecución</a></li>
+          <li class="nav-item"><a class="nav-link active" href="Historial.html">Historial Técnico</a></li>
+        </ul>
+        <button id="cerrarSesion" class="btn btn-outline-danger ms-auto">Cerrar sesión</button>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container mt-5">
+    <div class="card shadow">
+      <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Historial Técnico</h4>
+      </div>
+      <div class="card-body">
+        <table id="historialTable" class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Equipo</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Técnico</th>
+              <th scope="col">Duración</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Observaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+           
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <script>
+    
+    const cerrarSesion = document.getElementById("cerrarSesion");
+    if (cerrarSesion) {
+      cerrarSesion.addEventListener("click", () => {
+        localStorage.removeItem("usuarioActivo");
+        window.location.href = "index.html";
+      });
+    }
+
+   
+    async function cargarHistorial() {
+      try {
+        const res = await fetch("http://localhost:3000/api/Historial");
+        if (!res.ok) throw new Error("Error al obtener historial");
+
+        const registros = await res.json();
+        const tbody = document.querySelector("#historialTable tbody");
+        tbody.innerHTML = "";
+
+        registros.forEach(reg => {
+          const fila = `
+            <tr>
+              <td>${reg.fecha}</td>
+              <td>${reg.equipo}</td>
+              <td>${reg.tipoMantenimiento}</td>
+              <td>${reg.tecnico}</td>
+              <td>${reg.tiempoUtilizado}</td>
+              <td>${reg.estatus}</td>
+              <td>${reg.observaciones}</td>
+            </tr>
+          `;
+          tbody.insertAdjacentHTML("beforeend", fila);
+        });
+      } catch (error) {
+        console.error(error);
+        alert("❌ No se pudo cargar el historial");
+      }
+    }
+    cargarHistorial();
+  </script>
+</body>
+</html>
