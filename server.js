@@ -107,7 +107,7 @@ app.post("/api/Registronuevo", (req, res) => {
     equipo,
     tipoMantenimiento,
     descripcionTarea,
-    tiempoUtilizado,
+    tiempoEstimado,
     estatus,
     tecnico,
     fecha,
@@ -117,14 +117,14 @@ app.post("/api/Registronuevo", (req, res) => {
   const sql = `
     INSERT INTO Registronuevo (
       lineaProduccion, equipo, tipoMantenimiento,
-      descripcionTarea, tiempoUtilizado, estatus,
+      descripcionTarea, tiempoEstimado, estatus,
       tecnico, fecha, observaciones
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const valores = [
     lineaProduccion, equipo, tipoMantenimiento,
-    descripcionTarea, tiempoUtilizado, estatus,
+    descripcionTarea, tiempoEstimado, estatus,
     tecnico, fecha, observaciones
   ];
 
@@ -168,6 +168,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
