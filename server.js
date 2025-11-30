@@ -5,7 +5,12 @@ const db = require("./db.js");
 const app = express();
 app.use(express.json());
 app.use(cors());
+// Servir archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, "../Frontend/public")));
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend/public", "Menu.html")); 
+});
 
 
 
@@ -167,6 +172,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
