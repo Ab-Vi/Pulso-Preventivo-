@@ -149,7 +149,7 @@ app.get("/api/Historial", (req, res) => {
 app.get("/api/test-db", (req, res) => {
   db.query("SELECT 1 + 1 AS resultado", (err, results) => {
     if (err) {
-      console.error("❌ Error en la consulta de prueba:", err.message);
+      console.error(" Error en la consulta de prueba:", err.message);
       return res.status(500).json({ error: "Error en la base de datos", detalle: err.message });
     }
     res.json({ mensaje: "Conexión exitosa con Railway", resultado: results[0].resultado });
@@ -167,6 +167,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
