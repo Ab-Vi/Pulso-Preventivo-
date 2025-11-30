@@ -90,7 +90,7 @@ app.post("/api/agenda", (req, res) => {
       console.error("Error al insertar agenda:", err);
       return res.status(500).json({ mensaje: "Error en la base de datos" });
     }
-    res.json({ mensaje: "Agenda registrada correctamente ✅", id: resultado.insertId });
+    res.json({ mensaje: "Agenda registrada correctamente ", id: resultado.insertId });
   });
 });
 
@@ -132,7 +132,7 @@ app.post("/api/Registro", (req, res) => {
       console.error("Error al insertar registro:", err.sqlMessage || err.message);
       return res.status(500).json({ mensaje: "Error en la base de datos", detalle: err.sqlMessage || err.message });
     }
-    res.json({ mensaje: "Registro guardado correctamente ✅", id: resultado.insertId });
+    res.json({ mensaje: "Registro guardado correctamente ", id: resultado.insertId });
   });
 });
 
@@ -159,14 +159,15 @@ app.get("/api/test-db", (req, res) => {
 // Iniciar servidor
 const path = require("path");
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
+//app.get("/", (req, res) => {
+  //res.sendFile(path.join(__dirname, "public", "index.html"));
+//});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
