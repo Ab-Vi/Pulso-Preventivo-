@@ -121,7 +121,7 @@
         fecha: document.getElementById("fecha").value,
         observaciones: document.getElementById("Observaciones").value.trim()
       };
-
+      console.log("Datos enviados:", datos);
       try {
         const res = await fetch("/api/Registro", {
           method: "POST",
@@ -146,3 +146,4 @@
 </body>
 
 </html>
+
