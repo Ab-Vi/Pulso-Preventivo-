@@ -60,35 +60,35 @@ app.get("/api/Usuarios", (req, res) => {
 });
 
 // AgendaPrev
-app.post("/api/agenda", (req, res) => {
+app.post("/api/Agendanueva", (req, res) => {
   const {
     lineaProduccion,
     equipo,
     tipoMantenimiento,
     descripcionTarea,
     tiempoEstimado,
-    prioridad,
-    tecnico,
+    Prioridad,
+    Tecnico,
     fecha
   } = req.body;
 
   // Validación 
   if (
     !lineaProduccion || !equipo || !tipoMantenimiento || !descripcionTarea ||
-    !tiempoEstimado || !prioridad || !tecnico || !fecha
+    !tiempoEstimado || !Prioridad || !Tecnico || !fecha
   ) {
     return res.status(400).json({ mensaje: "Todos los campos son requeridos" });
   }
 
   const sql = `
-    INSERT INTO Agenda
+    INSERT INTO Agendanueva
     (lineaProduccion, equipo, tipoMantenimiento, descripcionTarea,
-     tiempoEstimado, prioridad, tecnico, fecha)
+     tiempoEstimado, Prioridad, Tecnico, fecha)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
   const valores = [
     lineaProduccion, equipo, tipoMantenimiento, descripcionTarea,
-    tiempoEstimado, prioridad, tecnico, fecha
+    tiempoEstimado, Prioridad, Tecnico, fecha
   ];
 
   db.query(sql, valores, (err, resultado) => {
@@ -168,6 +168,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
