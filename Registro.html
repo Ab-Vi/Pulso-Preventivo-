@@ -104,6 +104,19 @@
         window.location.href = "index.html";
       });
     }
+<form id="registroForm">
+  <!-- Asegúrate de que los campos tengan estos id -->
+  <input id="tipoEquipo" />
+  <input id="numeroEquipo" />
+  <input id="tipoMantenimiento" />
+  <textarea id="descripcionTarea"></textarea>
+  <input id="tiempoEstimado" />
+  <input id="Estatus" />
+  <input id="tecnico" />
+  <input id="fecha" type="date" />
+  <textarea id="Observaciones"></textarea>
+  <button type="submit">Registrar</button>
+</form>
 
     const registroForm = document.getElementById("registroForm");
 
@@ -146,4 +159,5 @@
 </body>
 
 </html>
+
 
