@@ -139,7 +139,7 @@ app.post("/api/Registronuevo", (req, res) => {
 
 // Historial
 app.get("/api/Historial", (req, res) => {
-  db.query("SELECT * FROM Registro ORDER BY fecha DESC", (err, resultado) => {
+  db.query("SELECT * FROM Registronuevo ORDER BY fecha DESC", (err, resultado) => {
     if (err) {
       console.error("Error al consultar historial:", err.sqlMessage || err.message);
       return res.status(500).json({ mensaje: "Error en la base de datos" });
@@ -168,6 +168,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
