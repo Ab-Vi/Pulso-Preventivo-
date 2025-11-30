@@ -123,7 +123,7 @@ const sql = `
 `;
 
 db.query(sql, [
-  id, lineaProduccion, equipo, tipoMantenimiento,
+  lineaProduccion, equipo, tipoMantenimiento,
   descripcionTarea, tiempoUtilizado, estatus,
   tecnico, fecha, observaciones
 ], (err, result) => {
@@ -165,6 +165,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
