@@ -96,69 +96,58 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
   
-  <script>
-    const cerrarSesion = document.getElementById("cerrarSesion");
-    if (cerrarSesion) {
-      cerrarSesion.addEventListener("click", () => {
-        localStorage.removeItem("usuarioActivo");
-        window.location.href = "index.html";
-      });
-    }
-<form id="registroForm">
-  <!-- Asegúrate de que los campos tengan estos id -->
-  <input id="tipoEquipo" />
-  <input id="numeroEquipo" />
-  <input id="tipoMantenimiento" />
-  <textarea id="descripcionTarea"></textarea>
-  <input id="tiempoEstimado" />
-  <input id="Estatus" />
-  <input id="tecnico" />
-  <input id="fecha" type="date" />
-  <textarea id="Observaciones"></textarea>
-  <button type="submit">Registrar</button>
-</form>
-
-    const registroForm = document.getElementById("registroForm");
-
-    registroForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const datos = {
-        lineaProduccion: document.getElementById("tipoEquipo").value.trim(),
-        equipo: document.getElementById("numeroEquipo").value.trim(),
-        tipoMantenimiento: document.getElementById("tipoMantenimiento").value.trim(),
-        descripcionTarea: document.getElementById("descripcionTarea").value.trim(),
-        tiempoUtilizado: document.getElementById("tiempoEstimado").value.trim(),
-        estatus: document.getElementById("Estatus").value.trim(),
-        tecnico: document.getElementById("tecnico").value.trim(),
-        fecha: document.getElementById("fecha").value,
-        observaciones: document.getElementById("Observaciones").value.trim()
-      };
-      console.log("Datos enviados:", datos);
-      try {
-        const res = await fetch("/api/Registronuevo", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(datos)
-        });
-
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.mensaje || "Error al guardar");
-        }
-
-        const data = await res.json();
-        alert(data.mensaje || "Registro guardado correctamente ");
-        registroForm.reset();
-      } catch (error) {
-        alert("No se pudo guardar el registro. " + error.message);
-        console.error(error);
-      }
+ <script>
+  const cerrarSesion = document.getElementById("cerrarSesion");
+  if (cerrarSesion) {
+    cerrarSesion.addEventListener("click", () => {
+      localStorage.removeItem("usuarioActivo");
+      window.location.href = "index.html";
     });
-  </script>
-</body>
+  } 
 
+  const registroForm = document.getElementById("registroForm");
+
+  registroForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const datos = {
+      lineaProduccion: document.getElementById("tipoEquipo").value.trim(),
+      equipo: document.getElementById("numeroEquipo").value.trim(),
+      tipoMantenimiento: document.getElementById("tipoMantenimiento").value.trim(),
+      descripcionTarea: document.getElementById("descripcionTarea").value.trim(),
+      tiempoUtilizado: document.getElementById("tiempoEstimado").value.trim(),
+      estatus: document.getElementById("Estatus").value.trim(),
+      tecnico: document.getElementById("tecnico").value.trim(),
+      fecha: document.getElementById("fecha").value,
+      observaciones: document.getElementById("Observaciones").value.trim()
+    };
+
+    console.log("Datos enviados:", datos);
+
+    try {
+      const res = await fetch("/api/Registronuevo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.mensaje || "Error al guardar");
+      }
+
+      const data = await res.json();
+      alert(data.mensaje || "Registro guardado correctamente");
+      registroForm.reset();
+    } catch (error) {
+      alert("No se pudo guardar el registro. " + error.message);
+      console.error(error);
+    }
+  });
+</script>
+</body>
 </html>
+
 
 
 
