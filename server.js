@@ -114,7 +114,7 @@ const {
 } = req.body;
 
 const sql = `
-  INSERT INTO Registro (
+  INSERT INTO Registronuevo (
     lineaProduccion, equipo, tipoMantenimiento,
     descripcionTarea, tiempoUtilizado, estatus,
     tecnico, fecha, observaciones
@@ -164,6 +164,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
