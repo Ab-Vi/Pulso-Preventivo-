@@ -102,36 +102,39 @@ app.post("/api/agenda", (req, res) => {
 
 // Registro
 app.post("/api/Registronuevo", (req, res) => {
-const {
-  lineaProduccion,
-  equipo,
-  tipoMantenimiento,
-  descripcionTarea,
-  tiempoUtilizado,
-  estatus,
-  tecnico,
-  fecha,
-  observaciones
-} = req.body;
+  const {
+    lineaProduccion,
+    equipo,
+    tipoMantenimiento,
+    descripcionTarea,
+    tiempoUtilizado,
+    estatus,
+    tecnico,
+    fecha,
+    observaciones
+  } = req.body;
 
-const sql = `
-  INSERT INTO Registronuevo (
+  const sql = `
+    INSERT INTO Registronuevo (
+      lineaProduccion, equipo, tipoMantenimiento,
+      descripcionTarea, tiempoUtilizado, estatus,
+      tecnico, fecha, observaciones
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const valores = [
     lineaProduccion, equipo, tipoMantenimiento,
     descripcionTarea, tiempoUtilizado, estatus,
     tecnico, fecha, observaciones
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-`;
+  ];
 
-db.query(sql, [
-  lineaProduccion, equipo, tipoMantenimiento,
-  descripcionTarea, tiempoUtilizado, estatus,
-  tecnico, fecha, observaciones
-], (err, result) => {
-  if (err) {
-    console.error("Error al insertar registro:", err);
-    return res.status(500).json({ mensaje: "Error en la base de datos" });
-  }
-  res.json({ mensaje: "Registro guardado correctamente" });
+  db.query(sql, valores, (err, result) => {
+    if (err) {
+      console.error("Error al insertar registro:", err);
+      return res.status(500).json({ mensaje: "Error en la base de datos" });
+    }
+    res.json({ mensaje: "Registro guardado correctamente" });
+  });
 });
 
 // Historial
@@ -165,6 +168,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
