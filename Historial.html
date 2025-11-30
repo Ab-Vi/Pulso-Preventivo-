@@ -71,7 +71,7 @@
    
     async function cargarHistorial() {
       try {
-        const res = await fetch("http://localhost:3000/api/Historial");
+        const res = await fetch("/api/Historial");
         if (!res.ok) throw new Error("Error al obtener historial");
 
         const registros = await res.json();
@@ -100,4 +100,5 @@
     cargarHistorial();
   </script>
 </body>
+
 </html>
