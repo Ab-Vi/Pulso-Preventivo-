@@ -102,7 +102,6 @@ app.post("/api/agenda", (req, res) => {
 
 // Registro
 const {
-  id,
   lineaProduccion,
   equipo,
   tipoMantenimiento,
@@ -116,7 +115,7 @@ const {
 
 const sql = `
   INSERT INTO Registro (
-    id, lineaProduccion, equipo, tipoMantenimiento,
+    lineaProduccion, equipo, tipoMantenimiento,
     descripcionTarea, tiempoUtilizado, estatus,
     tecnico, fecha, observaciones
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -165,6 +164,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
