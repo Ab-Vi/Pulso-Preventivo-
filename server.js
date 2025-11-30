@@ -103,6 +103,7 @@ app.post("/api/agenda", (req, res) => {
 // Registro
 app.post("/api/Registro", (req, res) => {
   const {
+    id,
     lineaProduccion,
     equipo,
     tipoMantenimiento,
@@ -114,31 +115,24 @@ app.post("/api/Registro", (req, res) => {
     observaciones
   } = req.body;
 
-  // Validación 
-  if (
-    !lineaProduccion || !equipo || !tipoMantenimiento || !descripcionTarea ||
-    !tiempoUtilizado || !estatus || !tecnico || !fecha || !observaciones
-  ) {
-    return res.status(400).json({ mensaje: "Todos los campos son requeridos" });
-  }
-
   const sql = `
-    INSERT INTO Registro
-    (lineaProduccion, equipo, tipoMantenimiento, descripcionTarea,
-     tiempoUtilizado, estatus, tecnico, fecha, observaciones)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO Registro (
+      id, lineaProduccion, equipo, tipoMantenimiento,
+      descripcionTarea, tiempoUtilizado, estatus,
+      tecnico, fecha, observaciones
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
-  const valores = [
-    lineaProduccion, equipo, tipoMantenimiento, descripcionTarea,
-    tiempoUtilizado, estatus, tecnico, fecha, observaciones
-  ];
 
-  db.query(sql, valores, (err, resultado) => {
+  db.query(sql, [
+    id, lineaProduccion, equipo, tipoMantenimiento,
+    descripcionTarea, tiempoUtilizado, estatus,
+    tecnico, fecha, observaciones
+  ], (err, result) => {
     if (err) {
-      console.error("Error al insertar registro:", err.sqlMessage || err.message);
-      return res.status(500).json({ mensaje: "Error en la base de datos", detalle: err.sqlMessage || err.message });
+      console.error("Error al insertar registro:", err);
+      return res.status(500).json({ mensaje: "Error en la base de datos" });
     }
-    res.json({ mensaje: "Registro guardado correctamente ", id: resultado.insertId });
+    res.json({ mensaje: "Registro guardado correctamente" });
   });
 });
 
@@ -173,6 +167,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 
 
